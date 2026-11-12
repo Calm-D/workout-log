@@ -1,0 +1,17 @@
+{
+	"appId": "com.local.workoutlog",
+	"appName": "训练日志",
+	"webDir": "dist",
+	"server": {
+		"androidScheme": "https"
+	},
+	"android": {
+		"backgroundColor": "#0e1116"
+	},
+	"plugins": {
+		"LocalNotifications": {
+			"smallIcon": "ic_stat_workout",
+			"iconColor": "#c8f45c"
+		}
+	}
+}

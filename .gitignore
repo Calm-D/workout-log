@@ -1,1 +1,23 @@
-.gitignore
+node_modules
+dist
+release
+
+# Android 构建产物与本机配置
+android/.gradle
+android/.idea
+android/build
+android/app/build
+android/local.properties
+android/keystore.properties
+android/capacitor-cordova-android-plugins
+android/app/src/main/assets/public
+
+# 签名与密钥
+*.jks
+*.keystore
+
+# 其他
+tmp-backup.json
+*.log
+.DS_Store
+Thumbs.db
