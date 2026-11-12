@@ -26,6 +26,7 @@ import { FloatingBars } from './components/FloatingBars';
 import { Toast } from './components/Toast';
 import { useAppStore } from './lib/store';
 import { initNotifications, scheduleRestNotification } from './lib/notifications';
+import { applySafeArea } from './lib/safeArea';
 
 const TAB_PATHS = new Set(['/', '/plans', '/trends', '/settings']);
 
@@ -34,6 +35,7 @@ function AppShell() {
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const isTabPage = TAB_PATHS.has(location.pathname);
+  const isNative = Capacitor.isNativePlatform();
   const hasRestTimer = useAppStore((state) => Boolean(state.restTimer));
   const hasActiveSession = useAppStore((state) =>
     state.sessions.some((session) => session.status === 'active'),
@@ -55,17 +57,26 @@ function AppShell() {
   }, []);
 
   useEffect(() => {
-    if (!Capacitor.isNativePlatform()) return;
+    if (!isNative) return;
     void (async () => {
       try {
-        await StatusBar.setOverlaysWebView({ overlay: false });
         await StatusBar.setBackgroundColor({ color: '#0e1116' });
         await StatusBar.setStyle({ style: Style.Light });
       } catch {
         // 状态栏设置失败时使用系统默认表现
       }
     })();
-  }, []);
+  }, [isNative]);
+
+  useEffect(() => {
+    if (!isNative) return;
+    void applySafeArea();
+    const onResize = () => {
+      void applySafeArea();
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [isNative]);
 
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
@@ -121,7 +132,11 @@ function AppShell() {
   }, [navigate]);
 
   return (
-    <div className={`app-shell ${hasFloating ? 'has-floating' : ''}`}>
+    <div
+      className={`app-shell ${isNative ? 'is-native' : ''} ${
+        hasFloating ? 'has-floating' : ''
+      }`}
+    >
       <div className={`app-scroll ${isTabPage ? 'has-tabs' : ''}`} ref={scrollRef}>
         <div
           className={`page-shell ${isTabPage ? 'page-shell--tab' : 'page-shell--sub'}`}

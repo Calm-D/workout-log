@@ -132,7 +132,7 @@ export function SettingsPage() {
           <h2>训练日志</h2>
           <p>把每次训练都留下来</p>
         </div>
-        <span className="profile-card__version">v1.0.0</span>
+        <span className="profile-card__version">v1.0.1</span>
       </section>
 
       <div className="overview-strip">
@@ -319,7 +319,7 @@ export function SettingsPage() {
               <span>训练日志</span>
               <small>本地记录，不需要账号，不联网同步</small>
             </div>
-            <span className="settings-version">v1.0.0</span>
+            <span className="settings-version">v1.0.1</span>
           </div>
           <div className="settings-row">
             <div className="settings-row__label">
